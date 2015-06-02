@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html">
+  <title>Automated jQuery RSS Feed Demo</title>
+  <meta name="author" content="Jake Rocheleau">
+  <link rel="shortcut icon" href="http://designshack.net/favicon.ico">
+  <link rel="icon" href="http://designshack.net/favicon.ico">
+  <link rel="stylesheet" type="text/css" media="all" href="css/feed.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" language="javascript" src="js/parser.js"></script>
+    		<!--Import Materialize-->
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+    		<!--Import materialize.css-->
+		<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+</head>
+
+<body>
+  <div id="w">
+    <div id="content">
+      <h1>Automated jQuery RSS Feed Listing</h1>
+      
+      <div id="nouperss" class="feedcontainer"></div>
+      <hr>
+      <div id="hongkiatrss" class="feedcontainer"></div>
+      <hr>
+      <div id="designmodorss" class="feedcontainer"></div>
+      <hr>
+      <div id="codropsrss" class="feedcontainer"></div>
+    </div><!-- @end #content -->
+  </div><!-- @end #w -->
+<script type="text/javascript">
+$(function(){
+  // running custom RSS functions
+  parseRSS('http://feeds.bbci.co.uk/news/england/rss.xml?edition=uk', '#nouperss');
+  parseRSS('http://feeds2.feedburner.com/24thfloor', '#hongkiatrss');
+  parseRSS('http://feeds.feedburner.com/designmodo', '#designmodorss');
+  parseRSS('http://feeds2.feedburner.com/tympanus', '#codropsrss')
+});
+</script>
+</body>
+</html>
