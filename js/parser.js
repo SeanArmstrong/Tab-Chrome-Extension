@@ -9,11 +9,11 @@ function parseRSS(url, widget) {
         success: function(data) {
         //console.log(data.responseData.feed);
 
-            $(widget + ' h1').text(capitaliseFirstLetter(data.responseData.feed.title));
+            $(widget + ' h3').text(capitaliseFirstLetter(data.responseData.feed.title));
             container = $(widget + ' ol');
 
             $.each(data.responseData.feed.entries, function(key, value){
-                var thehtml = '<a class="collection-item truncate" href="' + value.link + '" target="_blank"><div class="feed-title"><i class="mdi-action-label"></i><p>' + value.title + '</p></div><div class="right feed-date">3 Days Ago</div></a>'
+                var thehtml = '<a class="collection-item truncate" href="' + value.link + '" target="_blank"><div class="feed-title"><i class="mdi-action-label"></i><p>' + value.title + '</p></div><div class="right feed-date">' + timeSince(new Date(value.publishedDate)) + ' ago</div></a>'
 
                 $(container).append(thehtml);
             });
@@ -27,4 +27,34 @@ function parseRSS(url, widget) {
  */
 function capitaliseFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+// http://stackoverflow.com/a/3177838/4668477
+function timeSince(date) {
+
+    var seconds = Math.floor((new Date() - date) / 1000);
+
+    var interval = Math.floor(seconds / 31536000);
+
+    if (interval > 1) {
+        return interval + " years";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+        return interval + " months";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+        return interval + " days";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+        return interval + " hours";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return interval + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
 }

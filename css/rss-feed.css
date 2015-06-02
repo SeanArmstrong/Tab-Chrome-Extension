@@ -10,9 +10,9 @@
 
 .widget-styling-bar{
     position: absolute;
-    height: 15px;
+    height: 20px;
     width: 100%;
-    z-index: 1;
+    z-index: 0;
     
 }
 
@@ -21,15 +21,45 @@
     width: 100%;
 }
 
-.widget-header div h1{
-    font-size: 2vh;
+.widget-header div h3{
+    position: relative;
+    top: 15px;
+    font-size: 30px;
     padding-left: 20px;
     padding-right: 20px;
+    color: white;
+    z-index: 1;
+}
+
+.widget-header-title{
+    display: inline;
+}
+
+.widget-header-options{
+    display: inline;
+    position: relative;
+    padding-right: 5px;
+    top: -7.5px;
+    z-index: 1
+}
+
+.widget-header-options .mdi-action-settings{
+    font-size: 15px;
+    color: white;
+}
+
+.widget-header-options .mdi-action-highlight-remove{
+    font-size: 17.5px;
+    color: white;
+}
+
+.widget-header-options .mdi-navigation-refresh{
+    font-size: 17.5px;
     color: white;
 }
 
 .widget-main{
-    height: -webkit-calc(100% - 110px);
+    height: -webkit-calc(100% - 80px);
     overflow: auto;
 }
 
@@ -41,21 +71,8 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    height: 50px;
+    height: 1px;
     width: 100%;  
-    padding-left: 25px;
-    padding-right: 25px;
-}
-
-.widget-footer a{
-    bottom: 10px;
-    width: 30px;
-    height: 30px;
-}
-
-.widget-footer i{
-    position: relative;
-    bottom: 3.5px;
 }
 
 .feed-title{

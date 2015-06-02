@@ -6,7 +6,7 @@ $(function(){
         widget_base_dimensions: [140, 140],
         resize: {
             enabled: true,
-            min_size: [2, 2],
+            min_size: [3, 2],
             stop: function(e, ui, $widget) {
                 saveGridChanges();
             }    
@@ -64,7 +64,7 @@ $(function(){
 // On document due to race condition
 $(document).on('click', '.remove-widget', function(){
     // TODO Not susutainable
-    $(this).parent().parent().parent().addClass('active');
+    $(this).parent().parent().parent().parent().addClass('active');
     gridster.remove_widget($('.active'));
     saveGridChanges();
 });
@@ -78,7 +78,7 @@ $(document).on('click', '.update-feed', function(){
 });
 
 function addNewWidget(){
-    gridster.add_widget(getNewWidgetHTML(""), 2, 2);
+    gridster.add_widget(getNewWidgetHTML(""), 3, 2);
     appendModalToWidget("");
     id++;
 }
@@ -105,22 +105,23 @@ function getNewWidgetHTML(feed){
     console.log(feed);
     return '<li id=' + id + ' feed=' + feed + '>' + 
                 '<div class="widget-container">' +
-                    '<div class="widget-styling-bar blue darken-2"></div>' +
-                        '<header class="widget-header blue">' +
-                            '<div>' +
-                                '<h1 class="left-align"></h1>' +
-                            '</div>' +
-                        '</header>' +
-                        '<main class="widget-main">' +
-                            '<div>' +
-                                '<ol class="collection">' + 
-                                '</ol>' + 
-                            '</div>' +
-                        '</main>' + 
-                    '<footer class="widget-footer blue page-footer">' +
-                        '<a class="z-depth-3 left btn-floating waves-effect waves-light modal-trigger" href="#modal' + id + '"><i class="mdi-action-settings"></i></a>' +
-                        '<a class="z-depth-3 center btn-floating waves-effect waves-light light-green widget-draggable-element"><i class="widget-draggable-element mdi-action-open-with"></i></a>' +
-                        '<a class="z-depth-3 right btn-floating waves-effect waves-light red remove-widget"><i class="mdi-action-highlight-remove"></i></a>' +
+                    '<div class="widget-styling-bar blue darken-2 widget-draggable-element"></div>' +
+                    '<header class="widget-header blue widget-draggable-element">' +
+                        '<div class="left widget-header-title">' +
+                            '<h3 class="widget-draggable-element"></h3>' +
+                        '</div>' +
+                        '<div class="right widget-header-options">' +
+                         '<a class="btn-flat modal-trigger" href="#modal' + id + '"><i class="mdi-action-settings"></i></a>' +
+                         '<a class="btn-flat refresh-widget"><i class="mdi-navigation-refresh"></i></a>' +               
+                         '<a class="btn-flat remove-widget"><i class="mdi-action-highlight-remove"></i></a>' +
+                    '</header>' +
+                    '<main class="widget-main">' +
+                        '<div>' +
+                            '<ol class="collection">' + 
+                            '</ol>' + 
+                        '</div>' +
+                    '</main>' + 
+                    '<footer class="widget-footer blue page-footer">' + 
                     '</footer>' +
                 '</div>' +        
             '</li>'
