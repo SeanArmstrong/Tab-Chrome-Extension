@@ -1,21 +1,29 @@
+// Incremented unique id to distinguish
+// between widgets
 var id = 0;
 
+// Set up Gridster
 $(function(){
+    // Add gridster
     $(".gridster ul").gridster( {
-        widget_margins: [10, 10],
-        widget_base_dimensions: [140, 140],
+        widget_margins: [5, 5],
+        widget_base_dimensions: [70, 70],
+        
+        // Allow resizing
         resize: {
             enabled: true,
-            min_size: [3, 2],
+            // Once stopped save changes to permenant storage
             stop: function(e, ui, $widget) {
                 saveGridChanges();
             }    
         },
+        // Allow draggable only on custom class
         draggable: {
             handle: ".widget-draggable-element",
             ignore_dragging: function (event) {
                 return true;
             },
+            // On stopped save changes to permanent storage
             stop: function(event, ui){
                saveGridChanges(); 
             }
@@ -28,6 +36,10 @@ $(function(){
         
                 /* add feed link to data*/
                 feed: $w.attr('feed'),
+                logo: $w.attr('logo'),
+                
+                /* add type to data */
+                type: $w.attr('type'),
                 
                 /* defaults */
                 col: wgd.col,
@@ -38,23 +50,41 @@ $(function(){
         }
     });
     
+    // Load grid from storage
     chrome.storage.sync.get('layout', function (items){
         $.each(JSON.parse(items.layout), function() {
-            gridster.add_widget(getNewWidgetHTML(this.feed), this.size_x, this.size_y, this.col, this.row);
-            appendModalToWidget(this.feed);
-            parseRSS(this.feed, '.gridster #' + this.id);
+            switch(this.type){
+                case "1":
+                    gridster.add_widget(getNewFeedWidgetHTML(this.feed), this.size_x, this.size_y, this.col, this.row);
+                    appendModalToFeedWidget(this.feed);
+                    parseRSS(this.feed, '.gridster #' + this.id);
+                    break;
+                case "2":
+                    gridster.add_widget(getNewLinkWidgetHTML(this.feed, this.logo), this.size_x, this.size_y, this.col, this.row);
+                    appendModalToLinkWidget(this.feed, this.logo);
+                    colorWidget(this.id);
+                    break;
+            }
             id++;
         });
     });
     
+    // Gridster variable
     gridster = $(".gridster ul").gridster().data('gridster');
 
-            
-    $('.new-widget').on('click', function(){
-        addNewWidget();
+    // Adding a new rss feed widget 
+    $('.new-feed-widget').on('click', function(){
+        addNewFeedWidget();
         saveGridChanges();
     });
     
+    // Adding a link widget 
+    $('.new-link-widget').on('click', function(){
+        addNewLinkWidget();
+        saveGridChanges();
+    });
+    
+    // Enable models on prelaoded widgets
     $('.modal-trigger').leanModal({
         dismissible: false,   
     });
@@ -68,20 +98,6 @@ $(document).on('click', '.remove-widget', function(){
     gridster.remove_widget($('.active'));
     saveGridChanges();
 });
-
-$(document).on('click', '.update-feed', function(){
-    Materialize.toast('Value Updated', 1000)
-    newValue = $('#modal' + this.id + ' input')[0].value
-    $('.gridster #' + this.id)[0].setAttribute('feed', newValue);
-    saveGridChanges();
-    parseRSS(newValue, '.gridster #' + this.id);
-});
-
-function addNewWidget(){
-    gridster.add_widget(getNewWidgetHTML(""), 3, 2);
-    appendModalToWidget("");
-    id++;
-}
 
 function saveGridChanges() {
     data = JSON.stringify(gridster.serialize())
@@ -99,55 +115,6 @@ function saveGridChanges() {
     chrome.storage.sync.set(jsonfile, function() {
         console.log('Layout saved');
     });
-}
-
-function getNewWidgetHTML(feed){
-    console.log(feed);
-    return '<li id=' + id + ' feed=' + feed + '>' + 
-                '<div class="widget-container">' +
-                    '<div class="widget-styling-bar blue darken-2 widget-draggable-element"></div>' +
-                    '<header class="widget-header blue widget-draggable-element">' +
-                        '<div class="left widget-header-title">' +
-                            '<h3 class="widget-draggable-element"></h3>' +
-                        '</div>' +
-                        '<div class="right widget-header-options">' +
-                         '<a class="btn-flat modal-trigger" href="#modal' + id + '"><i class="mdi-action-settings"></i></a>' +
-                         '<a class="btn-flat refresh-widget"><i class="mdi-navigation-refresh"></i></a>' +               
-                         '<a class="btn-flat remove-widget"><i class="mdi-action-highlight-remove"></i></a>' +
-                    '</header>' +
-                    '<main class="widget-main">' +
-                        '<div>' +
-                            '<ol class="collection">' + 
-                            '</ol>' + 
-                        '</div>' +
-                    '</main>' + 
-                    '<footer class="widget-footer blue page-footer">' + 
-                    '</footer>' +
-                '</div>' +        
-            '</li>'
-}
-
-function appendModalToWidget(feed){
-        $('.widget-models').append('<div id="modal' + id + '" class="modal">' +
-           '<div class="modal-content">' +
-           '<h4>Modal ' + id + ' Header</h4>' +
-           '<div class="row">' +
-           '<form class="col s12">' +
-           '<div class="row">' +
-           '<div class="input-field col s12">' +
-           '<i class="mdi-social-pages prefix"></i>' +
-           '<input value="' + feed + '" id="icon_prefix" type="text" class="validate">' +
-           '<label class="active" for="icon_prefix">RSS Feed URL</label>' +
-           '</div></div></form></div>' +
-           '</div>' +
-           '<div class="modal-footer">' +
-           '<a href="#!" id="' + id + '" class="modal-action modal-close waves-effect waves-green btn-flat update-feed">Save</a>' +
-           '</div>' +
-           '</div>');
- 
-        $('.modal-trigger').leanModal({
-            dismissible: false,   
-        });
 }
 
 

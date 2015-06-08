@@ -8,15 +8,21 @@ function parseRSS(url, widget) {
         dataType: 'json',
         success: function(data) {
         //console.log(data.responseData.feed);
+            if(data.responseData == null){
+                console.log("Unable to parse: " + url);
+            } else {
+                $(widget + ' h3').text(capitaliseFirstLetter(data.responseData.feed.title));
+                container = $(widget + ' ol');
 
-            $(widget + ' h3').text(capitaliseFirstLetter(data.responseData.feed.title));
-            container = $(widget + ' ol');
+                $.each(data.responseData.feed.entries, function(key, value){
+                    var thehtml = '<a class="collection-item truncate" href="' + value.link + '" target="_blank"><div class="feed-title"><i class="mdi-action-label"></i><p>' + value.title + '</p></div><div class="right feed-date">' + timeSince(new Date(value.publishedDate)) + ' ago</div></a>'
 
-            $.each(data.responseData.feed.entries, function(key, value){
-                var thehtml = '<a class="collection-item truncate" href="' + value.link + '" target="_blank"><div class="feed-title"><i class="mdi-action-label"></i><p>' + value.title + '</p></div><div class="right feed-date">' + timeSince(new Date(value.publishedDate)) + ' ago</div></a>'
-
-                $(container).append(thehtml);
-            });
+                    $(container).append(thehtml);
+                });
+            }
+        },
+        error: function(data) {
+            console.log("Parse Error");
         }
     });
 }
