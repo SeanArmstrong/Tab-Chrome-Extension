@@ -1,0 +1,70 @@
+.deadline-widget-container{
+    overflow: auto; 
+    height: 100%;
+    z-index: 5;
+}
+
+.deadline-widget-header{
+    position: relative;
+    overflow: auto;
+    height: 20%;
+}
+
+.deadline-widget-header div{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.deadline-widget-main{
+    height: 80%;
+}
+
+.deadline-widget-main div{
+    position: relative;
+}
+
+.deadline-widget-filler{
+    height: 10%;
+}
+
+.deadline-widget-intro{
+    height: 5%;
+}
+
+.deadline-widget-number{
+    height: 55%;
+}
+
+.deadline-widget-interval{
+    height: 30%;
+    font-size: 40px;
+}
+
+.deadline-widget-main span{
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-height: 70%;
+    max-width: 70%;
+    z-index: 1;
+}
+
+.deadline-widget-styling-bar{
+    z-index: 20;
+}
+
+.deadline-widget-number span{
+    font-size: 90px;
+    line-height: 60%;
+    padding-top: 5%;
+}
+
+.deadline-widget-no-resize{
+    display: none;
+}

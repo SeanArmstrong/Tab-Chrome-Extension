@@ -35,8 +35,16 @@ $(function(){
                 id: $w.attr('id'),
         
                 /* add feed link to data*/
+                title: $w.attr('data-title'),
+                description: $w.attr('data-description'),
+                               
+                // TODO CHANGE TO 'data-variable'
                 feed: $w.attr('feed'),
                 logo: $w.attr('logo'),
+                due_date: $w.attr('due_date'),
+                colour1: $w.attr('data-colour1'),
+                colour2: $w.attr('data-colour2'),
+                colour3: $w.attr('data-colour3'),
                 
                 /* add type to data */
                 type: $w.attr('type'),
@@ -62,7 +70,13 @@ $(function(){
                 case "2":
                     gridster.add_widget(getNewLinkWidgetHTML(this.feed, this.logo), this.size_x, this.size_y, this.col, this.row);
                     appendModalToLinkWidget(this.feed, this.logo);
-                    colorWidget(this.id);
+                    //setTimeout(function(){}, 100000);
+                    //colorWidget(this.id);
+                    break;
+                case "3":
+                    gridster.add_widget(getNewDeadlineWidgetHTML(this.title, this.due_date, this.colour1, this.colour2), this.size_x, this.size_y, this.col, this.row);
+                    appendModalToDeadlineWidget(this.title, this.due_date, this.colour1, this.colour2);
+                    $('.gridster #' + id + ' .gs-resize-handle').addClass('deadline-widget-no-resize');
                     break;
             }
             id++;
@@ -81,6 +95,12 @@ $(function(){
     // Adding a link widget 
     $('.new-link-widget').on('click', function(){
         addNewLinkWidget();
+        saveGridChanges();
+    });
+    
+    // Adding a deadline widget 
+    $('.new-deadline-widget').on('click', function(){
+        addNewDeadlineWidget();
         saveGridChanges();
     });
     
