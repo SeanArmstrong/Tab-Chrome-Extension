@@ -12,8 +12,16 @@ $(document).on('click', '.update-deadline-widget', function(){
     $('.gridster #' + this.id)[0].setAttribute('data-colour2', colour2);
 
     var time = timeTill(new Date(due_date)).split(' ');
+    var introText = "Due in";
+    
+    if(parseInt(time[0]) < 0){
+        introText = "Overdue by";
+        time = timeSince(new Date(due_date)).split(' ');
+    }
+    
     $('.gridster #' + this.id + ' .deadline-widget-number span').text(time[0]);
     $('.gridster #' + this.id + ' .deadline-widget-interval p').text(time[1]);
+    $('.gridster #' + this.id + ' .deadline-widget-intro p').text(introText);
     $('.gridster #' + this.id + ' h5').text(title);
     
     // TODO: Check for valid HEX
@@ -51,6 +59,14 @@ function getNewDeadlineWidgetHTML(title, due_date, colour1, colour2){
     if(due_date == ""){ due_date = new Date(); }
     if(colour1 == "" || colour1 == null){ colour1 = "#f44336"; }
     var time = timeTill(new Date(due_date)).split(' ');
+    
+    var introText = "Due in";
+    
+    if(parseInt(time[0]) < 0){
+        introText = "Overdue by";
+        time = timeSince(new Date(due_date)).split(' ');
+    }
+    
     var headerColour = hexToRgb(colour1);
     var stylingWidgetColour = 'rgb(' + parseInt(headerColour.r * 0.75) + ',' + parseInt(headerColour.g * 0.75) + ',' + parseInt(headerColour.b * 0.75) + ')';
     
@@ -69,7 +85,7 @@ function getNewDeadlineWidgetHTML(title, due_date, colour1, colour2){
                     '</header>' + 
                     '<main class="deadline-widget-main" style="background-color: ' + colour2 + '">' +
                             '<div class="deadline-widget-filler"></div>' +
-                            '<div class="deadline-widget-intro"><p>Due in</p></div>' +
+                            '<div class="deadline-widget-intro"><p>' + introText + '</p></div>' +
                             '<div class="deadline-widget-number">' +
                                  '<span>' + time[0] + '</span>' +
                             '</div>' +

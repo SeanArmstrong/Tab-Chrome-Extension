@@ -70,7 +70,6 @@ $(function(){
                 case "2":
                     gridster.add_widget(getNewLinkWidgetHTML(this.feed, this.logo), this.size_x, this.size_y, this.col, this.row);
                     appendModalToLinkWidget(this.feed, this.logo);
-                    //setTimeout(function(){}, 100000);
                     //colorWidget(this.id);
                     break;
                 case "3":
@@ -103,6 +102,17 @@ $(function(){
         addNewDeadlineWidget();
         saveGridChanges();
     });
+    
+    // Horrible race condition for retrieving images
+    // and setting the widget colour using them
+    setTimeout(function(){
+        for(var i = 0; i < id; i++){
+            var widget = $('.gridster #' + i);
+            if(widget.attr('type') == "2"){
+                colorWidget(i);
+            }
+        }
+    }, 100);
     
     // Enable models on prelaoded widgets
     $('.modal-trigger').leanModal({

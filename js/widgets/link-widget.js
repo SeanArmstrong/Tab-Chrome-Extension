@@ -39,11 +39,11 @@ $(document).on('mouseleave', '.link-widget-styling-bar', function(){
 
 function colorWidget(widgetId){
     var colorThief = new ColorThief();
-    
+
     var color = colorThief.getColor($('.gridster #' + widgetId + ' img')[0]);
     console.log(color);
     var darkerColor = [parseInt(color[0] * 0.75), parseInt(color[1] * 0.75), parseInt(color[2] * 0.75)];
-    
+
     $('.gridster #' + widgetId + ' .link-widget-main').css('background-color', '').css('background-color', 'rgb(' + color.join(',') + ')');
     $('.gridster #' + widgetId + ' .widget-styling-bar')[0].classList.remove('black');
     $('.gridster #' + widgetId + ' .widget-styling-bar').css('background-color', '').css('background-color', 'rgb(' + darkerColor.join(',') + ')');
